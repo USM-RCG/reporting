@@ -11,17 +11,17 @@
     <parameters>
         <parameter>
             <name>output-folder</name>
-            <default_value>&#x7e;&#x2f;Desktop&#x2f;bioko-reports</default_value>
+            <default_value>&#x2f;home&#x2f;optiplex-710-b&#x2f;Desktop&#x2f;bioko-reports</default_value>
             <description/>
         </parameter>
         <parameter>
             <name>query-end-date</name>
-            <default_value>3000-01-01</default_value>
+            <default_value>2014-12-02</default_value>
             <description/>
         </parameter>
         <parameter>
             <name>query-id-like</name>
-            <default_value>07&#x25;B</default_value>
+            <default_value>&#x25;</default_value>
             <description/>
         </parameter>
         <parameter>
@@ -95,6 +95,7 @@
   </notepads>
   <order>
   <hop> <from>Get System Events</from><to>Sort by Entity Id, TimeStamp</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort by Entity Id, TimeStamp</from><to>To Spreadsheet</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Get System Events</name>
@@ -170,7 +171,162 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>270</xloc>
-      <yloc>136</yloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>To Spreadsheet</name>
+    <type>TypeExitExcelWriterStep</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <header>Y</header>
+    <footer>N</footer>
+    <makeSheetActive>Y</makeSheetActive>
+    <rowWritingMethod>overwrite</rowWritingMethod>
+    <startingCell>A1</startingCell>
+    <appendOmitHeader>N</appendOmitHeader>
+    <appendOffset>0</appendOffset>
+    <appendEmpty>0</appendEmpty>
+    <rowWritingMethod>overwrite</rowWritingMethod>
+    <forceFormulaRecalculation>N</forceFormulaRecalculation>
+    <leaveExistingStylesUnchanged>N</leaveExistingStylesUnchanged>
+    <appendLines>N</appendLines>
+    <add_to_result_filenames>Y</add_to_result_filenames>
+    <file>
+      <name>&#x24;&#x7b;output-folder&#x7d;&#x2f;longitudinal-system-events_&#x24;&#x7b;query-start-date&#x7d;_&#x24;&#x7b;query-end-date&#x7d;</name>
+      <extention>xlsx</extention>
+      <do_not_open_newfile_init>Y</do_not_open_newfile_init>
+      <split>N</split>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <sheetname>Events</sheetname>
+      <autosizecolums>N</autosizecolums>
+      <stream_data>N</stream_data>
+      <protect_sheet>N</protect_sheet>
+      <password>Encrypted </password>
+      <protected_by/>
+      <splitevery>0</splitevery>
+      <if_file_exists>new</if_file_exists>
+      <if_sheet_exists>new</if_sheet_exists>
+      </file>
+    <template>
+      <enabled>N</enabled>
+      <sheet_enabled>N</sheet_enabled>
+      <filename>template.xls</filename>
+      <sheetname/>
+    </template>
+    <fields>
+      <field>
+        <name>FieldWorkerUUID</name>
+        <type>String</type>
+        <format/>
+        <title>FieldWorkerUUID</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>FieldWorker</name>
+        <type>String</type>
+        <format/>
+        <title>FieldWorker</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>RecordId</name>
+        <type>String</type>
+        <format/>
+        <title>RecordId</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>RecordVersion</name>
+        <type>Integer</type>
+        <format/>
+        <title>RecordVersion</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>CreateDate</name>
+        <type>String</type>
+        <format/>
+        <title>CreateDate</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>EntityID</name>
+        <type>String</type>
+        <format/>
+        <title>EntityID</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>SystemName</name>
+        <type>String</type>
+        <format/>
+        <title>SystemName</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>EventType</name>
+        <type>String</type>
+        <format/>
+        <title>EventType</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>270</xloc>
+      <yloc>267</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
