@@ -16,7 +16,7 @@
         </parameter>
         <parameter>
             <name>query-end-date</name>
-            <default_value>3000-01-01</default_value>
+            <default_value>2014-12-02</default_value>
             <description/>
         </parameter>
         <parameter>
@@ -205,7 +205,7 @@
     <appendLines>N</appendLines>
     <add_to_result_filenames>Y</add_to_result_filenames>
     <file>
-      <name>&#x24;&#x7b;output-folder&#x7d;&#x2f;system-events-&#x24;&#x7b;query-start-date&#x7d;-&#x24;&#x7b;query-end-date&#x7d;</name>
+      <name>&#x24;&#x7b;output-folder&#x7d;&#x2f;system-events_&#x24;&#x7b;query-start-date&#x7d;_&#x24;&#x7b;query-end-date&#x7d;</name>
       <extention>xlsx</extention>
       <do_not_open_newfile_init>Y</do_not_open_newfile_init>
       <split>N</split>

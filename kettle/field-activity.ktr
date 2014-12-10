@@ -16,7 +16,7 @@
         </parameter>
         <parameter>
             <name>query-end-date</name>
-            <default_value>3000-01-01</default_value>
+            <default_value>2014-12-02</default_value>
             <description/>
         </parameter>
         <parameter>
@@ -147,7 +147,7 @@
     <appendLines>N</appendLines>
     <add_to_result_filenames>Y</add_to_result_filenames>
     <file>
-      <name>&#x24;&#x7b;output-folder&#x7d;&#x2f;field-activity-&#x24;&#x7b;query-start-date&#x7d;-&#x24;&#x7b;query-end-date&#x7d;</name>
+      <name>&#x24;&#x7b;output-folder&#x7d;&#x2f;field-activity_&#x24;&#x7b;query-start-date&#x7d;_&#x24;&#x7b;query-end-date&#x7d;</name>
       <extention>xlsx</extention>
       <do_not_open_newfile_init>Y</do_not_open_newfile_init>
       <split>N</split>
@@ -176,7 +176,7 @@
         <name>SystemName</name>
         <type>String</type>
         <format/>
-        <title>FieldWorker</title>
+        <title>System</title>
         <titleStyleCell/>
         <styleCell/>
         <commentField/>
@@ -188,7 +188,7 @@
         <name>FieldWorker</name>
         <type>String</type>
         <format/>
-        <title>SystemName</title>
+        <title>FieldWorker</title>
         <titleStyleCell/>
         <styleCell/>
         <commentField/>
@@ -200,7 +200,7 @@
         <name>EventType</name>
         <type>String</type>
         <format/>
-        <title>EventType</title>
+        <title>RecordType</title>
         <titleStyleCell/>
         <styleCell/>
         <commentField/>
@@ -387,18 +387,6 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
-      <field>
-        <name>server-url</name>
-        <variable>&#x24;&#x7b;server-url&#x7d;</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -472,7 +460,7 @@
     <appendLines>N</appendLines>
     <add_to_result_filenames>Y</add_to_result_filenames>
     <file>
-      <name>&#x24;&#x7b;output-folder&#x7d;&#x2f;field-activity-&#x24;&#x7b;query-start-date&#x7d;-&#x24;&#x7b;query-end-date&#x7d;</name>
+      <name>&#x24;&#x7b;output-folder&#x7d;&#x2f;field-activity_&#x24;&#x7b;query-start-date&#x7d;_&#x24;&#x7b;query-end-date&#x7d;</name>
       <extention>xlsx</extention>
       <do_not_open_newfile_init>Y</do_not_open_newfile_init>
       <split>N</split>
@@ -538,18 +526,6 @@
         <type>String</type>
         <format/>
         <title>Query Start</title>
-        <titleStyleCell/>
-        <styleCell/>
-        <commentField/>
-        <commentAuthorField/>
-        <formula>N</formula>
-        <hyperlinkField/>
-      </field>
-      <field>
-        <name>server-url</name>
-        <type>String</type>
-        <format/>
-        <title>Server Url</title>
         <titleStyleCell/>
         <styleCell/>
         <commentField/>
