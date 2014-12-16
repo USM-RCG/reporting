@@ -20,8 +20,8 @@
             <description/>
         </parameter>
         <parameter>
-            <name>query-id-like</name>
-            <default_value>&#x25;</default_value>
+            <name>query-entity-id</name>
+            <default_value/>
             <description/>
         </parameter>
         <parameter>
@@ -94,8 +94,8 @@
   <notepads>
   </notepads>
   <order>
-  <hop> <from>Get System Events</from><to>Sort by Entity Id, TimeStamp</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort by Entity Id, TimeStamp</from><to>To Spreadsheet</to><enabled>Y</enabled> </hop>
+  <hop> <from>Get System Events</from><to>Sort by CreateDate</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort by CreateDate</from><to>To Spreadsheet</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Get System Events</name>
@@ -137,7 +137,7 @@
     </step>
 
   <step>
-    <name>Sort by Entity Id, TimeStamp</name>
+    <name>Sort by CreateDate</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -155,12 +155,6 @@
       <compress_variable/>
       <unique_rows>N</unique_rows>
     <fields>
-      <field>
-        <name>EntityID</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
       <field>
         <name>CreateDate</name>
         <ascending>Y</ascending>
@@ -315,6 +309,18 @@
         <type>String</type>
         <format/>
         <title>EventType</title>
+        <titleStyleCell/>
+        <styleCell/>
+        <commentField/>
+        <commentAuthorField/>
+        <formula>N</formula>
+        <hyperlinkField/>
+      </field>
+      <field>
+        <name>RawData</name>
+        <type>String</type>
+        <format/>
+        <title>RawData</title>
         <titleStyleCell/>
         <styleCell/>
         <commentField/>
