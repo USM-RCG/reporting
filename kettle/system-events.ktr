@@ -203,6 +203,27 @@
   <hop> <from>Merge Mirth</from><to>Sort by FieldWorker</to><enabled>Y</enabled> </hop>
   </order>
   <step>
+    <name>Append Mirth</name>
+    <type>Append</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<head_name>Prune Errors</head_name>
+<tail_name>Prune Sent</tail_name>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>201</xloc>
+      <yloc>764</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Append ODK OpenHDS</name>
     <type>Append</type>
     <description/>
@@ -219,6 +240,27 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>651</xloc>
       <yloc>764</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Append ODK OpenHDS Mirth</name>
+    <type>Append</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<head_name>Mirth Field Types</head_name>
+<tail_name>Append ODK OpenHDS</tail_name>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>351</xloc>
+      <yloc>945</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -443,6 +485,230 @@
     </step>
 
   <step>
+    <name>Merge Mirth</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<join_type>INNER</join_type>
+<step1>Parse XML Content</step1>
+<step2>Mirth Response</step2>
+    <keys_1>
+      <key>RecordId</key>
+    </keys_1>
+    <keys_2>
+      <key>RecordId</key>
+    </keys_2>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>201</xloc>
+      <yloc>205</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mirth Error Label</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>SystemName</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Mirth Error</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>51</xloc>
+      <yloc>569</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mirth Field Types</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <meta>        <name>CreateDate</name>
+        <rename>CreateDate</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>RecordId</name>
+        <rename>RecordId</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>201</xloc>
+      <yloc>857</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mirth Join FieldWorkers</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<join_type>INNER</join_type>
+<step1>FieldWorkers by extId</step1>
+<step2>Sort by FieldWorker</step2>
+    <keys_1>
+      <key>FieldWorker</key>
+    </keys_1>
+    <keys_2>
+      <key>FieldWorker</key>
+    </keys_2>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>201</xloc>
+      <yloc>369</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mirth Response</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>Mirth MySql</connection>
+    <sql>SELECT D_MC1.MESSAGE_ID AS RecordId,&#xa;  D_MC1.METADATA_ID,  &#xa;  CONNECTOR_NAME,&#xa;  CONTENT AS ReceivedContent,&#xa;  ERROR_CODE&#xa;  FROM mirthdb.D_MC1&#xa;    JOIN mirthdb.D_MM1&#xa;    ON D_MM1.MESSAGE_ID &#x3d; D_MC1.MESSAGE_ID&#xa;    AND D_MM1.ID &#x3d; D_MC1.METADATA_ID&#xa;  WHERE SEND_ATTEMPTS &#x3e; 0&#xa;  AND CONTENT_TYPE &#x3d; 8&#xa;  AND RECEIVED_DATE &#x3e; date&#x28;&#x27;2014-11-27&#x27;&#x29;&#xa;  AND RECEIVED_DATE &#x3c;&#x3d; date&#x28;&#x27;2014-12-02&#x27;&#x29;&#xa;&#xa;ORDER BY RecordId&#x3b;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>51</xloc>
+      <yloc>20</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mirth Sent</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>Mirth MySql</connection>
+    <sql>SELECT D_MC1.MESSAGE_ID AS RecordId,&#xa;  0 AS RecordVersion,&#xa;  D_MC1.METADATA_ID,  &#xa;  RECEIVED_DATE,&#xa;  CONTENT AS SourceContent&#xa;  FROM mirthdb.D_MC1&#xa;    JOIN mirthdb.D_MM1&#xa;    ON D_MM1.MESSAGE_ID &#x3d; D_MC1.MESSAGE_ID&#xa;    AND D_MM1.ID &#x3d; D_MC1.METADATA_ID&#xa;  WHERE STATUS &#x3d; &#x27;T&#x27;&#xa;  AND CONTENT_TYPE &#x3d; 1&#xa;  AND INSTR&#x28;CONTENT, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29; &#x3e; 0&#xa;  AND RECEIVED_DATE &#x3e; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND RECEIVED_DATE &#x3c;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;&#xa;ORDER BY RecordId&#x3b;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>201</xloc>
+      <yloc>20</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mirth Sent Label</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>SystemName</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Mirth Sent</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>201</xloc>
+      <yloc>569</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>ODK Forms</name>
     <type>TableInput</type>
     <description/>
@@ -508,7 +774,7 @@
            <schema_name/>
            </partitioning>
     <connection>OpenHDS MySQL</connection>
-    <sql>SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Individual&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM individual &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND INSTR&#x28;extId, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Location&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM location &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND INSTR&#x28;extId, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Visit&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM visit &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND INSTR&#x28;extId, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT pregnancyobservation.uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;pregnancyobservation.insertDate&#x29; AS CreateDate,&#xa;  pregnancyobservation.collectedBy_uuid AS FieldWorkerUUID,&#xa;  individual.extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;PregnancyObservation&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM pregnancyobservation&#xa;    JOIN individual&#xa;    ON pregnancyobservation.mother_uuid &#x3d; individual.uuid&#xa;  WHERE timestamp&#x28;pregnancyobservation.insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;pregnancyobservation.insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND INSTR&#x28;individual.extId, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29;&#xa;&#xa;ORDER BY FieldWorkerUUID&#x3b;</sql>
+    <sql>SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Individual&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM individual &#xa;  WHERE &#x28;ISNULL&#x28;insertDate&#x29; &#xa;    OR &#x28;timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;      AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#x29;&#x29;&#xa;  AND INSTR&#x28;extId, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Location&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM location &#xa;  WHERE &#x28;ISNULL&#x28;insertDate&#x29; &#xa;    OR &#x28;timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;      AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#x29;&#x29;&#xa;  AND INSTR&#x28;extId, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Visit&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM visit &#xa;  WHERE &#x28;ISNULL&#x28;insertDate&#x29; &#xa;    OR &#x28;timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;      AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#x29;&#x29;&#xa;  AND INSTR&#x28;extId, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT pregnancyobservation.uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;pregnancyobservation.insertDate&#x29; AS CreateDate,&#xa;  pregnancyobservation.collectedBy_uuid AS FieldWorkerUUID,&#xa;  individual.extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;PregnancyObservation&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM pregnancyobservation&#xa;    JOIN individual&#xa;    ON pregnancyobservation.mother_uuid &#x3d; individual.uuid&#xa;  WHERE &#x28;ISNULL&#x28;pregnancyobservation.insertDate&#x29; &#xa;    OR &#x28;timestamp&#x28;pregnancyobservation.insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;      AND timestamp&#x28;pregnancyobservation.insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#x29;&#x29;&#xa;  AND INSTR&#x28;individual.extId, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29;&#xa;&#xa;ORDER BY FieldWorkerUUID&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -546,6 +812,147 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>801</xloc>
       <yloc>369</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Parse XML Content</name>
+    <type>getXMLData</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <include>N</include>
+    <include_field/>
+    <rownum>N</rownum>
+    <addresultfile>N</addresultfile>
+    <namespaceaware>N</namespaceaware>
+    <ignorecomments>N</ignorecomments>
+    <readurl>N</readurl>
+    <validating>N</validating>
+    <usetoken>N</usetoken>
+    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
+    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
+    <rownum_field/>
+    <encoding>UTF-8</encoding>
+    <file>
+      <name/>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
+    <fields>
+      <field>
+        <name>FieldWorker</name>
+        <xpath>&#x2f;&#x2a;&#x2f;field_worker_ext_id&#x5b;1&#x5d;</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>EntityID</name>
+        <xpath>&#x2f;&#x2a;&#x2f;location_ext_id&#x5b;1&#x5d; &#x7c; &#x2f;&#x2a;&#x2f;individual_ext_id&#x5b;1&#x5d; &#x7c; &#x2f;&#x2a;&#x2f;visit_ext_id&#x5b;1&#x5d;</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+    </fields>
+    <limit>0</limit>
+    <loopxpath>&#x2f;</loopxpath>
+    <IsInFields>Y</IsInFields>
+    <IsAFile>N</IsAFile>
+    <XmlField>SourceContent</XmlField>
+    <prunePath/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>201</xloc>
+      <yloc>84</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Prune Errors</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>      <field>        <name>FieldWorkerUUID</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>FieldWorker</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>RecordId</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>RecordVersion</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>RECEIVED_DATE</name>
+        <rename>CreateDate</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>EntityID</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>SystemName</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONNECTOR_NAME</name>
+        <rename>EventType</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>ReceivedContent</name>
+        <rename>RawData</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>        <select_unspecified>N</select_unspecified>
+    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>51</xloc>
+      <yloc>669</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -693,390 +1100,6 @@
     </step>
 
   <step>
-    <name>Share Data</name>
-    <type>MappingOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>351</xloc>
-      <yloc>1144</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mirth Sent</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>Mirth MySql</connection>
-    <sql>SELECT D_MC1.MESSAGE_ID AS RecordId,&#xa;  0 AS RecordVersion,&#xa;  D_MC1.METADATA_ID,  &#xa;  RECEIVED_DATE,&#xa;  CONTENT AS SourceContent&#xa;  FROM mirthdb.D_MC1&#xa;    JOIN mirthdb.D_MM1&#xa;    ON D_MM1.MESSAGE_ID &#x3d; D_MC1.MESSAGE_ID&#xa;    AND D_MM1.ID &#x3d; D_MC1.METADATA_ID&#xa;  WHERE STATUS &#x3d; &#x27;T&#x27;&#xa;  AND CONTENT_TYPE &#x3d; 1&#xa;  AND INSTR&#x28;CONTENT, &#x27;&#x24;&#x7b;query-entity-id&#x7d;&#x27;&#x29; &#x3e; 0&#xa;  AND RECEIVED_DATE &#x3e; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND RECEIVED_DATE &#x3c;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;&#xa;ORDER BY RecordId&#x3b;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>201</xloc>
-      <yloc>20</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Parse XML Content</name>
-    <type>getXMLData</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <include>N</include>
-    <include_field/>
-    <rownum>N</rownum>
-    <addresultfile>N</addresultfile>
-    <namespaceaware>N</namespaceaware>
-    <ignorecomments>N</ignorecomments>
-    <readurl>N</readurl>
-    <validating>N</validating>
-    <usetoken>N</usetoken>
-    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
-    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
-    <rownum_field/>
-    <encoding>UTF-8</encoding>
-    <file>
-      <name/>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>FieldWorker</name>
-        <xpath>&#x2f;&#x2a;&#x2f;field_worker_ext_id&#x5b;1&#x5d;</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-      <field>
-        <name>EntityID</name>
-        <xpath>&#x2f;&#x2a;&#x2f;location_ext_id&#x5b;1&#x5d; &#x7c; &#x2f;&#x2a;&#x2f;individual_ext_id&#x5b;1&#x5d; &#x7c; &#x2f;&#x2a;&#x2f;visit_ext_id&#x5b;1&#x5d;</xpath>
-        <element_type>node</element_type>
-        <result_type>valueof</result_type>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-      </field>
-    </fields>
-    <limit>0</limit>
-    <loopxpath>&#x2f;</loopxpath>
-    <IsInFields>Y</IsInFields>
-    <IsAFile>N</IsAFile>
-    <XmlField>SourceContent</XmlField>
-    <prunePath/>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>201</xloc>
-      <yloc>84</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mirth Response</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>Mirth MySql</connection>
-    <sql>SELECT D_MC1.MESSAGE_ID AS RecordId,&#xa;  D_MC1.METADATA_ID,  &#xa;  CONNECTOR_NAME,&#xa;  CONTENT AS ReceivedContent,&#xa;  ERROR_CODE&#xa;  FROM mirthdb.D_MC1&#xa;    JOIN mirthdb.D_MM1&#xa;    ON D_MM1.MESSAGE_ID &#x3d; D_MC1.MESSAGE_ID&#xa;    AND D_MM1.ID &#x3d; D_MC1.METADATA_ID&#xa;  WHERE SEND_ATTEMPTS &#x3e; 0&#xa;  AND CONTENT_TYPE &#x3d; 8&#xa;  AND RECEIVED_DATE &#x3e; date&#x28;&#x27;2014-11-27&#x27;&#x29;&#xa;  AND RECEIVED_DATE &#x3c;&#x3d; date&#x28;&#x27;2014-12-02&#x27;&#x29;&#xa;&#xa;ORDER BY RecordId&#x3b;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>51</xloc>
-      <yloc>20</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Merge Mirth</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>INNER</join_type>
-<step1>Parse XML Content</step1>
-<step2>Mirth Response</step2>
-    <keys_1>
-      <key>RecordId</key>
-    </keys_1>
-    <keys_2>
-      <key>RecordId</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>201</xloc>
-      <yloc>205</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Separate Errors</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>Mirth Error Label</send_true_to>
-<send_false_to>Mirth Sent Label</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>ERROR_CODE</leftvalue>
- <function>&#x3d;</function>
- <rightvalue/>
- <value><name>constant</name><type>Integer</type><text>1</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;&#x3b;-&#x23;</mask></value> </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>201</xloc>
-      <yloc>469</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Prune Errors</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>      <field>        <name>FieldWorkerUUID</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>FieldWorker</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>RecordId</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>RecordVersion</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>RECEIVED_DATE</name>
-        <rename>CreateDate</rename>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>EntityID</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>SystemName</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CONNECTOR_NAME</name>
-        <rename>EventType</rename>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>ReceivedContent</name>
-        <rename>RawData</rename>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>51</xloc>
-      <yloc>669</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mirth Error Label</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>SystemName</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Mirth Error</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>51</xloc>
-      <yloc>569</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mirth Sent Label</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>SystemName</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Mirth Sent</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>201</xloc>
-      <yloc>569</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mirth Join FieldWorkers</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>INNER</join_type>
-<step1>FieldWorkers by extId</step1>
-<step2>Sort by FieldWorker</step2>
-    <keys_1>
-      <key>FieldWorker</key>
-    </keys_1>
-    <keys_2>
-      <key>FieldWorker</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>201</xloc>
-      <yloc>369</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Append Mirth</name>
-    <type>Append</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<head_name>Prune Errors</head_name>
-<tail_name>Prune Sent</tail_name>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>201</xloc>
-      <yloc>764</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Prune Sent</name>
     <type>SelectValues</type>
     <description/>
@@ -1133,6 +1156,54 @@
     </step>
 
   <step>
+    <name>Separate Errors</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Mirth Error Label</send_true_to>
+<send_false_to>Mirth Sent Label</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>ERROR_CODE</leftvalue>
+ <function>&#x3d;</function>
+ <rightvalue/>
+ <value><name>constant</name><type>Integer</type><text>1</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;&#x3b;-&#x23;</mask></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>201</xloc>
+      <yloc>469</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Share Data</name>
+    <type>MappingOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>351</xloc>
+      <yloc>1144</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Sort by FieldWorker</name>
     <type>SortRows</type>
     <description/>
@@ -1162,77 +1233,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>201</xloc>
       <yloc>284</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Append ODK OpenHDS Mirth</name>
-    <type>Append</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<head_name>Mirth Field Types</head_name>
-<tail_name>Append ODK OpenHDS</tail_name>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>351</xloc>
-      <yloc>945</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mirth Field Types</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <meta>        <name>CreateDate</name>
-        <rename>CreateDate</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>      <meta>        <name>RecordId</name>
-        <rename>RecordId</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask/>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>201</xloc>
-      <yloc>857</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
