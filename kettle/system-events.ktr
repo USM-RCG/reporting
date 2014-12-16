@@ -94,6 +94,33 @@
   <notepads>
   </notepads>
   <connection>
+    <name>Mirth MySql</name>
+    <server>cims-bioko.org</server>
+    <type>MYSQL</type>
+    <access>Native</access>
+    <database>mirthdb</database>
+    <port>3306</port>
+    <username>mirthdb</username>
+    <password>Encrypted 2be98afc86aa78193aa0aba71d8b3bc82</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>EXTRA_OPTION_MYSQL.defaultFetchSize</code><attribute>500</attribute></attribute>
+      <attribute><code>EXTRA_OPTION_MYSQL.useCursorFetch</code><attribute>true</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>3306</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>STREAM_RESULTS</code><attribute>Y</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
     <name>ODK MySQL</name>
     <server>cims-bioko.org</server>
     <type>MYSQL</type>
@@ -158,6 +185,9 @@
   <hop> <from>Prune OpenHDS</from><to>Append ODK OpenHDS</to><enabled>Y</enabled> </hop>
   <hop> <from>Append ODK OpenHDS</from><to>Dump to Spreadsheet</to><enabled>Y</enabled> </hop>
   <hop> <from>Dump to Spreadsheet</from><to>Share Data</to><enabled>Y</enabled> </hop>
+  <hop> <from>Mirth Sent</from><to>Parse XML Content</to><enabled>Y</enabled> </hop>
+  <hop> <from>Parse XML Content</from><to>Merge Mirth</to><enabled>Y</enabled> </hop>
+  <hop> <from>Mirth Response</from><to>Merge Mirth</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Append ODK OpenHDS</name>
@@ -174,8 +204,8 @@
 <tail_name>Prune OpenHDS</tail_name>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>491</xloc>
-      <yloc>309</yloc>
+      <xloc>269</xloc>
+      <yloc>344</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -329,7 +359,7 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>491</xloc>
+      <xloc>270</xloc>
       <yloc>462</yloc>
       <draw>Y</draw>
       </GUI>
@@ -355,8 +385,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>173</xloc>
-      <yloc>17</yloc>
+      <xloc>76</xloc>
+      <yloc>19</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -381,8 +411,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>704</xloc>
-      <yloc>17</yloc>
+      <xloc>337</xloc>
+      <yloc>23</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -399,7 +429,7 @@
            <schema_name/>
            </partitioning>
     <connection>ODK MySQL</connection>
-    <sql>SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;COLLECTION_DATE_TIME&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  INDIVIDUAL_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;Individual&#x27; AS EventType&#xa;  FROM INDIVIDUAL_CORE &#xa;  WHERE timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND INDIVIDUAL_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;COLLECTION_DATE_TIME&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  LOCATION_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;Location&#x27; AS EventType&#xa;  FROM LOCATION_CORE &#xa;  WHERE timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND LOCATION_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;_CREATION_DATE&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  LOCATION_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;BedNet&#x27; AS EventType&#xa;  FROM BED_NET_CORE &#xa;  WHERE timestamp&#x28;_CREATION_DATE&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;_CREATION_DATE&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND LOCATION_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;COLLECTION_DATE_TIME&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  LOCATION_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;LocationEvaluation&#x27; AS EventType&#xa;  FROM LOCATION_EVALUATION_CORE &#xa;  WHERE timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND LOCATION_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;VISIT_DATE&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  VISIT_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;Visit&#x27; AS EventType&#xa;  FROM VISIT_CORE &#xa;  WHERE timestamp&#x28;VISIT_DATE&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;VISIT_DATE&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND VISIT_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;RECORDED_DATE&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  INDIVIDUAL_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;PregnancyObservation&#x27; AS EventType&#xa;  FROM PREGNANCY_OBSERVATION_CORE &#xa;  WHERE timestamp&#x28;RECORDED_DATE&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;RECORDED_DATE&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND INDIVIDUAL_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;ORDER BY FieldWorker&#x3b;</sql>
+    <sql>SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;COLLECTION_DATE_TIME&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  INDIVIDUAL_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;Individual&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM INDIVIDUAL_CORE &#xa;  WHERE timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND INDIVIDUAL_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;COLLECTION_DATE_TIME&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  LOCATION_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;Location&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM LOCATION_CORE &#xa;  WHERE timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND LOCATION_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;_CREATION_DATE&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  LOCATION_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;BedNet&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM BED_NET_CORE &#xa;  WHERE timestamp&#x28;_CREATION_DATE&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;_CREATION_DATE&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND LOCATION_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;COLLECTION_DATE_TIME&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  LOCATION_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;LocationEvaluation&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM LOCATION_EVALUATION_CORE &#xa;  WHERE timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;COLLECTION_DATE_TIME&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND LOCATION_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;VISIT_DATE&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  VISIT_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;Visit&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM VISIT_CORE &#xa;  WHERE timestamp&#x28;VISIT_DATE&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;VISIT_DATE&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND VISIT_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT _URI AS RecordId,&#xa;  _MODEL_VERSION AS RecordVersion, &#xa;  timestamp&#x28;RECORDED_DATE&#x29; AS CreateDate,&#xa;  FIELD_WORKER_EXT_ID AS FieldWorker,&#xa;  INDIVIDUAL_EXT_ID AS EntityID, &#xa;  &#x27;ODK&#x27; AS SystemName,&#xa;  &#x27;PregnancyObservation&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM PREGNANCY_OBSERVATION_CORE &#xa;  WHERE timestamp&#x28;RECORDED_DATE&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;RECORDED_DATE&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND INDIVIDUAL_EXT_ID LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;ORDER BY FieldWorker&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -407,8 +437,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>299</xloc>
-      <yloc>17</yloc>
+      <xloc>202</xloc>
+      <yloc>19</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -435,8 +465,8 @@
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>225</xloc>
-      <yloc>133</yloc>
+      <xloc>128</xloc>
+      <yloc>135</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -453,7 +483,7 @@
            <schema_name/>
            </partitioning>
     <connection>OpenHDS MySQL</connection>
-    <sql>SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Individual&#x27; AS EventType&#xa;  FROM individual &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND extId LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Location&#x27; AS EventType&#xa;  FROM location &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND extId LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Visit&#x27; AS EventType&#xa;  FROM visit &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND extId LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  uuid AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;PregnancyObservation&#x27; AS EventType&#xa;  FROM pregnancyobservation &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND uuid LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;ORDER BY FieldWorkerUUID&#x3b;</sql>
+    <sql>SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Individual&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM individual &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND extId LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Location&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM location &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND extId LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  extId AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;Visit&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM visit &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND extId LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;UNION ALL&#xa;&#xa;SELECT uuid AS RecordId,&#xa;  0 AS RecordVersion, &#xa;  timestamp&#x28;insertDate&#x29; AS CreateDate,&#xa;  collectedBy_uuid AS FieldWorkerUUID,&#xa;  uuid AS EntityID, &#xa;  &#x27;OpenHDS&#x27; AS SystemName,&#xa;  &#x27;PregnancyObservation&#x27; AS EventType,&#xa;  &#x27;&#x27; AS RawData&#xa;  FROM pregnancyobservation &#xa;  WHERE timestamp&#x28;insertDate&#x29; &#x3e;&#x3d; date&#x28;&#x27;&#x24;&#x7b;query-start-date&#x7d;&#x27;&#x29;&#xa;  AND timestamp&#x28;insertDate&#x29; &#x3c; date&#x28;&#x27;&#x24;&#x7b;query-end-date&#x7d;&#x27;&#x29;&#xa;  AND uuid LIKE &#x27;&#x24;&#x7b;query-id-like&#x7d;&#x27;&#xa;&#xa;ORDER BY FieldWorkerUUID&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -461,8 +491,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>829</xloc>
-      <yloc>17</yloc>
+      <xloc>462</xloc>
+      <yloc>23</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -489,8 +519,8 @@
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>770</xloc>
-      <yloc>133</yloc>
+      <xloc>403</xloc>
+      <yloc>139</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -556,8 +586,8 @@
         <storage_type/>
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>226</xloc>
-      <yloc>235</yloc>
+      <xloc>129</xloc>
+      <yloc>237</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -623,8 +653,8 @@
         <storage_type/>
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>771</xloc>
-      <yloc>235</yloc>
+      <xloc>404</xloc>
+      <yloc>241</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -642,8 +672,158 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>491</xloc>
-      <yloc>594</yloc>
+      <xloc>269</xloc>
+      <yloc>561</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mirth Sent</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>Mirth MySql</connection>
+    <sql>SELECT D_MC1.MESSAGE_ID AS RecordId,&#xa;  D_MC1.METADATA_ID,  &#xa;  RECEIVED_DATE,&#xa;  CONTENT AS SourceContent&#xa;  FROM mirthdb.D_MC1&#xa;    JOIN mirthdb.D_MM1&#xa;    ON D_MM1.MESSAGE_ID &#x3d; D_MC1.MESSAGE_ID&#xa;    AND D_MM1.ID &#x3d; D_MC1.METADATA_ID&#xa;  WHERE STATUS &#x3d; &#x27;T&#x27;&#xa;  AND CONTENT_TYPE &#x3d; 1&#xa;  AND RECEIVED_DATE &#x3e; date&#x28;&#x27;2014-11-27&#x27;&#x29;&#xa;  AND RECEIVED_DATE &#x3c;&#x3d; date&#x28;&#x27;2014-12-02&#x27;&#x29;&#xa;&#xa;ORDER BY RecordId&#x3b;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>645</xloc>
+      <yloc>21</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Parse XML Content</name>
+    <type>getXMLData</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <include>N</include>
+    <include_field/>
+    <rownum>N</rownum>
+    <addresultfile>N</addresultfile>
+    <namespaceaware>N</namespaceaware>
+    <ignorecomments>N</ignorecomments>
+    <readurl>N</readurl>
+    <validating>N</validating>
+    <usetoken>N</usetoken>
+    <IsIgnoreEmptyFile>N</IsIgnoreEmptyFile>
+    <doNotFailIfNoFile>Y</doNotFailIfNoFile>
+    <rownum_field/>
+    <encoding>UTF-8</encoding>
+    <file>
+      <name/>
+      <filemask/>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
+    <fields>
+      <field>
+        <name>FieldWorker</name>
+        <xpath>&#x2f;&#x2a;&#x2f;field_worker_ext_id&#x5b;1&#x5d;</xpath>
+        <element_type>node</element_type>
+        <result_type>valueof</result_type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+      </field>
+    </fields>
+    <limit>0</limit>
+    <loopxpath>&#x2f;</loopxpath>
+    <IsInFields>Y</IsInFields>
+    <IsAFile>N</IsAFile>
+    <XmlField>SourceContent</XmlField>
+    <prunePath/>
+    <shortFileFieldName/>
+    <pathFieldName/>
+    <hiddenFieldName/>
+    <lastModificationTimeFieldName/>
+    <uriNameFieldName/>
+    <rootUriNameFieldName/>
+    <extensionFieldName/>
+    <sizeFieldName/>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>644</xloc>
+      <yloc>143</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mirth Response</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>Mirth MySql</connection>
+    <sql>SELECT D_MC1.MESSAGE_ID AS RecordId,&#xa;  D_MC1.METADATA_ID,  &#xa;  CONNECTOR_NAME,&#xa;  CONTENT AS ReceivedContent,&#xa;  ERROR_CODE&#xa;  FROM mirthdb.D_MC1&#xa;    JOIN mirthdb.D_MM1&#xa;    ON D_MM1.MESSAGE_ID &#x3d; D_MC1.MESSAGE_ID&#xa;    AND D_MM1.ID &#x3d; D_MC1.METADATA_ID&#xa;  WHERE SEND_ATTEMPTS &#x3e; 0&#xa;  AND CONTENT_TYPE &#x3d; 8&#xa;  AND RECEIVED_DATE &#x3e; date&#x28;&#x27;2014-11-27&#x27;&#x29;&#xa;  AND RECEIVED_DATE &#x3c;&#x3d; date&#x28;&#x27;2014-12-02&#x27;&#x29;&#xa;&#xa;ORDER BY RecordId&#x3b;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>749</xloc>
+      <yloc>20</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Merge Mirth</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<join_type>INNER</join_type>
+<step1>Parse XML Content</step1>
+<step2>Mirth Response</step2>
+    <keys_1>
+      <key>RecordId</key>
+    </keys_1>
+    <keys_2>
+      <key>RecordId</key>
+    </keys_2>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>710</xloc>
+      <yloc>241</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
